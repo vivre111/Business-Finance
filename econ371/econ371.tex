@@ -1,0 +1,769 @@
+\documentclass[10pt]{article} 
+
+\usepackage{fullpage}
+\usepackage{bookmark}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{hyperref} % for the URL
+\usepackage[shortlabels]{enumitem}
+\usepackage{mathtools}
+\usepackage[most]{tcolorbox}
+\usepackage[amsmath,standard,thmmarks]{ntheorem} 
+\usepackage{physics}
+\usepackage{pst-tree} % for the trees
+\usepackage{verbatim} % for comments, for version control
+\usepackage{tabu}
+\usepackage{tikz}
+\usepackage{float}
+
+\lstnewenvironment{python}{
+\lstset{frame=tb,
+language=Python,
+aboveskip=3mm,
+belowskip=3mm,
+showstringspaces=false,
+columns=flexible,
+basicstyle={\small\ttfamily},
+numbers=none,
+numberstyle=\tiny\color{Green},
+keywordstyle=\color{Violet},
+commentstyle=\color{Gray},
+stringstyle=\color{Brown},
+breaklines=true,
+breakatwhitespace=true,
+tabsize=2}
+}
+{}
+
+\lstnewenvironment{cpp}{
+\lstset{
+backgroundcolor=\color{white!90!NavyBlue},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+basicstyle={\scriptsize\ttfamily},        % the size of the fonts that are used for the code
+breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+breaklines=true,                 % sets automatic line breaking
+captionpos=b,                    % sets the caption-position to bottom
+commentstyle=\color{Gray},    % comment style
+deletekeywords={...},            % if you want to delete keywords from the given language
+escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+% firstnumber=1000,                % start line enumeration with line 1000
+frame=single,	                   % adds a frame around the code
+keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+keywordstyle=\color{Cyan},       % keyword style
+language=c++,                 % the language of the code
+morekeywords={*,...},            % if you want to add more keywords to the set
+% numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+% numbersep=5pt,                   % how far the line-numbers are from the code
+% numberstyle=\tiny\color{Green}, % the style that is used for the line-numbers
+rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+showstringspaces=false,          % underline spaces within strings only
+showtabs=false,                  % show tabs within strings adding particular underscores
+stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+stringstyle=\color{GoldenRod},     % string literal style
+tabsize=2,	                   % sets default tabsize to 2 spaces
+title=\lstname}                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+{}
+
+% floor, ceiling, set
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\set}{\lbrace}{\rbrace}
+\DeclarePairedDelimiter{\iprod}{\langle}{\rangle}
+
+\DeclareMathOperator{\Int}{int}
+\DeclareMathOperator{\mean}{mean}
+
+% commonly used sets
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\renewcommand{\P}{\mathbb{P}}
+
+\newcommand{\sset}{\subseteq}
+
+\theoremstyle{break}
+\theorembodyfont{\upshape}
+
+\newtheorem{thm}{Theorem}[subsection]
+\tcolorboxenvironment{thm}{
+enhanced jigsaw,
+colframe=Dandelion,
+colback=White!90!Dandelion,
+drop fuzzy shadow east,
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{cor}{Corollary}[thm]
+\tcolorboxenvironment{cor}{
+boxrule=0pt,
+boxsep=0pt,
+colback={White!90!RoyalPurple},
+enhanced jigsaw,
+borderline west={2pt}{0pt}{RoyalPurple},
+sharp corners,
+before skip=10pt,
+after skip=10pt,
+breakable
+}
+
+\newtheorem{lem}[thm]{Lemma}
+\tcolorboxenvironment{lem}{
+enhanced jigsaw,
+colframe=Red,
+colback={White!95!Red},
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{ex}[thm]{Example}
+\tcolorboxenvironment{ex}{% from ntheorem
+blanker,left=5mm,
+sharp corners,
+before skip=10pt,after skip=10pt,
+borderline west={2pt}{0pt}{Gray}
+}
+
+\newtheorem*{pf}{Proof}
+\tcolorboxenvironment{pf}{% from ntheorem
+breakable,blanker,left=5mm,
+sharp corners,
+before skip=10pt,after skip=10pt,
+borderline west={2pt}{0pt}{NavyBlue!80!white}
+}
+
+\newtheorem{defn}{Definition}[subsection]
+\tcolorboxenvironment{defn}{
+enhanced jigsaw,
+colframe=Cerulean,
+colback=White!90!Cerulean,
+drop fuzzy shadow east,
+rightrule=2mm,
+sharp corners,
+before skip=10pt,after skip=10pt
+}
+
+\newtheorem{prop}[thm]{Proposition}
+\tcolorboxenvironment{prop}{
+boxrule=0pt,
+boxsep=0pt,
+colback={White!90!Green},
+enhanced jigsaw,
+borderline west={2pt}{0pt}{Green},
+sharp corners,
+before skip=10pt,
+after skip=10pt,
+breakable
+}
+
+\setlength\parindent{0pt}
+\setlength{\parskip}{2pt}
+
+
+\begin{document}
+\let\ref\Cref
+
+\title{\bf{econ371 Business Finance 1}}
+\date{\today}
+\author{Austin Xia}
+
+\maketitle
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+\newpage
+\section{Basic Concepts in Finance}
+\subsection{The Three Types of Firms}
+\begin{itemize}
+    \item Sole Proprietorships: Owned and run by one person, limitation: no seperation between firm and owner
+    \item Partnerships: \begin{itemize}
+        \item general partnership: unincorporated business owned/run by more than 1 owner, owners have same right
+        \item limited partnership: owner's liability is limited to their investment, A limited partner has no management authority
+        \item limited liability partnership: for law and accounting firms, provides partial limitation of a partner's liability
+    \end{itemize}
+    \item Corporation \\ legally defined, seperated from its owners.
+    \\ Solely responsible for its own obligations. Owners no liable for any obligations
+    \\ ownership stake of corporation is divided into shares \textbf{stock}. The collection of all outstanding shares of a corporation is known as \textbf{equity} of the corporation
+    \\ owner of share of stock is \textbf{shareholder/stockholder/equity holder}, shareholders are entitled to dividend payment 
+    \\ no limitation on who can be shareholder
+    \\ Corporate profit are subject to taxation seperate from its owners' tax obligations, so shareholders pay personal income tax after profit tax
+\end{itemize}
+
+Canada Revenue Agency allowed an exemption for double taxation \textbf{flow-through entities (income trust)}
+\begin{itemize}
+    \item Business income trusts 
+    \item energy trusts 
+    \item real estate investment trust (REIT)
+\end{itemize}
+    REIT continue to have no tax while others are now taxed
+
+\begin{defn}[flow-through entity]
+    A business in which all income produced flows to the investors and virtually no earnings are retained within the business 
+\end{defn}
+
+\begin{defn}[income trust]
+    A trust that holds income-producing assets directly or holds all the debt and equity securities of an income-producing corporation within the trust
+\end{defn}
+
+\begin{defn}[business income trust]
+    A income trust holds all the debt and equity securities of a corporation (the underlying business)
+\end{defn}
+
+\begin{defn}[energy trust]
+    an income trust that holds resource porperties directly or holds all the debt and equity securities of a recource corporation within the trust
+\end{defn}
+
+\begin{defn}[unit holder]
+    the owner of an income trust
+\end{defn}
+
+\begin{defn}[REIT real estate investment trust]
+    an income trust that holds real estate properties directly or holds all the debt and securities of a corporation that owns real estate properties
+\end{defn}
+
+\subsection{the financial manager}
+\begin{itemize}
+    \item make investment decision. main type is production. expanding. doing stuff instead of buying profolio  
+    \item make financing decision. how to get money. cooperate loan, sell equity, new share, this will drop stock price
+    \item manage short-term cash needs. inflation
+\end{itemize}
+\subsection{goal of financial manager}
+\begin{itemize}
+    \item the overriding goal is maximize the wealth of stockholder/increase long-term value to company
+\end{itemize}
+\subsection{financial manager's place in cooperation}
+the corporate management team:
+\begin{itemize}
+    \item stockholders elect a board of directors 
+    \item the board make rules 
+    \item the ceo implement rules and policies set by the board
+\end{itemize}
+
+Ethics and incentives in corporation: 
+\textbf{principle-agent problem}
+    managers can put their self-interest before shareholders
+
+to solve this, tie the top manager's conpensation to stock price/corporation profit
+
+\begin{defn}[board of director]
+    a group of people elected by shareholders who have ultimate decision making authority in corporation 
+\end{defn}
+
+\begin{defn}[ceo cheif executive officer]
+    the person charged with running corportaion by instituting roles and policies set by board of directors
+\end{defn}
+
+\subsection{stock market}
+\textbf{corporation can be private or publick}
+\begin{itemize}
+    \item private corporation has limited number of owners and no organized market for its shares 
+    \item public corporation has many owners and its shares trade on organized market. calling a stock market 
+\end{itemize}
+private stock cannot be traded, it can be sold back to cooperation but not to public
+
+\textbf{private market vs secondary market}
+\begin{itemize}
+    \item the market where new shares of stock are issued by corporation and sold to investors 
+    \item markets, where shares of corporation are traded between investors, without involvement of the corporation like NYSE
+\end{itemize}
+
+\textbf{Bid-Ask Market}
+\begin{defn}[bid price]
+    the highest price in the market for which one is willing to buy the stock (should be slightly less than market price)
+\end{defn}
+opposite is lowest ask vs highest bid
+
+\begin{defn}[bid-ask spread]
+    an implit \textbf{transaction cost} investors have to pay in order to trade \textbf{quickly}.
+    extreme case is buy some stock then sell at once
+\end{defn}
+stuff: exchange traded funds: similar to mutual fund. weighted average of bucket of stock/currency. 
+
+stuff: liquidity: high liquidity === how easy things can be coverted to money
+
+\begin{defn}[Limit order]
+    only until price reach some point, truade it 
+\end{defn}
+
+\begin{defn}[market order]
+    buy immediately. customer ends up buying at highest ask and selling at lowest bid 
+\end{defn}
+
+\subsection{Financial institutions}
+\begin{defn}[financial institutions]
+    entities that provide financial services. like taking deposit, managing inverstment, brokering financial transactions, making loans.
+\end{defn}
+
+the financial cycle:
+\begin{itemize}
+    \item people invest/save money 
+    \item through loans and stock, money goes to companies who use it to fund growth through new products. generating profit and wages 
+    \item the money flows back to savers/investors
+\end{itemize}
+
+roles of financial institutions:
+\begin{itemize}
+    \item move funds form savers to borrowers 
+    \item move funds through time 
+    \item help spread out risk-bearing
+\end{itemize}
+
+\section{financial statement}
+\subsection{firm's disclosure of financial statement}
+\textbf{financial statements} are accounting reports issued periodically to present past performance info and snapshot of firm's asset 
+
+investors, financial analysts managers etc rely on it to obtain info about a corporation
+
+rules of financial statments:\\
+generally accepted accounting principle (GAAP) are based on historical cost 
+IFRS places more emphasis on fair value of assets/liability
+
+\subsection{the statement of financial position or balance sheet}
+List firm's asset, liabilities and equity.
+
+provides a \textbf{snapshot} of the firm's financial position at a give point in time
+
+balance sheet identity: 
+$$sharholder's equity = assets - liabilities $$
+
+\begin{defn}[current asset]
+    current assets is things that will be converted into cash in one year.
+
+    like Cash, accounts receivable, inventories(how much is used to create inventory)
+\end{defn}
+
+long term asset has: \textbf{net property, plant, equipment}
+
+total asset = current assets + long-term assets
+
+Liabilities:
+\begin{itemize}
+    \item current liabilities \begin{itemize}
+        \item accounts payable
+        \item notes payable/short-term debuts
+    \end{itemize}
+    \item Long-term Liabilities \begin{itemize}
+        \item long-term debut 
+    \end{itemize}
+\end{itemize}
+
+shareholder's equity = common stock (money spent when buying stock) + retained earnings 
+
+liquidation value or total shareholder's equity (book number of equity) = total assets - total liabilites 
+
+book value of equity is completely different from market value of equity
+
+book vlaue of equity: 
+\begin{itemize}
+    \item not good esitmate of true value as an ongoing firm (but sometimes used as estimate of the liquidation value = value left after its assets were sold and Liabilities paid)
+    \item an inaccurate assessment of actual value of firm equity 
+    \item  often idffers substantially from amount investors are willing to pay for the equity
+\end{itemize}
+
+\begin{defn}[market capitalization]
+    market capitalization = market value of equity = market price per share * number of share. 
+
+    does not depend on book value of equity
+\end{defn}
+
+\textbf{liquidation value}: value of firm after assets sold liability paid 
+
+\textbf{market-to-book ratio}: market value of equity / book value of equity
+
+\textbf{value stocks}: firms with low market-to-book ratios
+
+\textbf{growth stocks}: firms with high market-to-book ratios
+
+we want market value of equity to be larger than book value of equity
+
+\textbf{enterprise value} = market value of equity + debt - cash
+
+because debut is used to expand, cash is just cash 
+
+present value of future cash flows === enterprise value
+
+\textbf{Net Working Capital} = current assets - current Liabilities
+
+\textbf{shareholder's equity/book value of equity} = assets - Liabilities
+
+\textbf{market capitalization} = price per share * shares outstanding
+
+\subsection{income statement}
+\textbf{gross profit}= revenues - cost of sales
+
+\textbf{operating income} = gross profit - operating income 
+
+\textbf{earnings before interest and tax EBIT} = operating income + other income 
+
+\textbf{pretax income} = EBIT + interest income
+
+\textbf{net income} = pretax income - tax
+
+\textbf{earning per share} = net income / shares outstanding 
+
+\textbf{diluted EPS} is EPS considering increase of shares by stock option/convertible bonds 
+
+\subsection{statement of cash flow}
+contains operating activities, investment activities, financing activities
+
+\textbf{operating activity}
+
+minus increase in accounts receivable,
+
+adds increase in account payable 
+
+minus increase to inventories
+
+add depreciation 
+
+\textbf{investment activity}
+
+subtract captial expenditure (increase in long-term-assets minus depreciation)
+
+subtract investment or purchase
+
+\textbf{financing activity}
+
+minus dividends paid 
+
+adds cash received from sale/repurchasing stock 
+
+changes to short-term/long-term borrowing 
+
+\subsection{income statement analysis}
+\subsubsection{profitability ratio}
+
+\textbf{gross margin} = gross profit/sales 
+
+\textbf{operating margin} = operating income / sales 
+
+\textbf{net profit margin} = net income / sales 
+
+\subsubsection{liquidity ratio}
+\textbf{current ratio} = current asset / current Liabilities 
+
+\textbf{quick ratio} = (current asset - inventory) / current liability
+
+\subsubsection{asset efficienty}
+\textbf{asset turnover} = sales / total asset 
+
+\textbf{fixed asset turnover} = sales / fixed assets
+
+\subsubsection{working capital ratio}
+\textbf{accounts receivable days} = accounts receivable / average daily sales 
+
+\textbf{inventory days / inventory turnover} = cost of good / inventory
+
+\textbf{interest coverage ratio} = earnings / interest, how easily firm cover its interest payment 
+
+\subsubsection{leverage ratios}
+\textbf{debt-equity ratio} = total debt / total equity 
+
+\textbf{debt-to-capital ratio}
+
+\textbf{net debt} = total debt - excess cash - short-term investment 
+
+\textbf{debut-to-enterprise-value ratio} = net debt / (market value of equity + net debt)
+
+\textbf{enterprise value} = market value of equity + net debt
+
+\textbf{equity multiplier} = total assets / book balue of equity
+
+\subsubsection{valuation ratio}
+\textbf{price-earning ratio (P/E)} = market capitalization / net income = share price / earnings per share
+
+\textbf{PEG ratio} = P/E / expected growth rate
+
+\subsubsection{operating returns}
+\textbf{return on equity} = net income / book value of equity 
+
+\subsection{investment return}
+\textbf{return on asset} = net income / total assets
+
+\textbf{return on invested capical} = EBIT(1-tax rate) / (book value of equity + net debt)
+
+\textbf{DuPont Identity}: ROE = (net income / sales) (sales / total assets) (total assets/total equity)
+
+\section{time value of money}
+\subsection{value cash flow at different points of time}
+rule 1: comparing and combining values 
+
+rule 2: compounding: calculate future value
+
+rule 3: discounting: calculate value of future cash flow at an earlier point of time
+
+
+\subsection{perpetuities and annuities}
+perpetuities:
+
+C = r * P, P is money in bank, r is interest rate 
+
+PV(C in perpertuity) = $\frac{C}{r}$
+
+annuities: 
+
+PV(N-year annuitiy of C per year with interest r) = $C*\frac{1}{r}\left(1-\frac{1}{(1+r)^N}\right)$
+
+future value of annuitiy is just $PV * (1+r)^n$
+
+if we add inflation it would be PV(growing perpetuity) = $\frac{C}{r-g}$
+
+present value of growing annuity:
+
+$$PV=C_1 * \frac{1}{r-g}\left(1-(\frac{1+g}{1+r})^N\right)$$
+
+\section{interest rate}
+\subsection{interest rate quotes and adjustment}
+\begin{defn}[EAR effective annual rate]
+    the total amount of interest that will be earned at end of one year 
+\end{defn}
+
+\begin{defn}[APR annual percentage rates, simple interest]
+    indicates amount of interest earned in one year without compounding
+
+    simple interest is interest earned without considering compounding
+\end{defn}
+
+$$1+EAR=(1+\frac{APR}{m})^m$$
+
+\subsection{determinants of interest rates}
+\begin{defn}
+    nominal interest rates: quoted by banks that indicate rate money will grow
+
+    real interest rate: the rate of growth of purchasing power
+\end{defn}
+
+$$1+realRate = \frac{1+norminalRate}{1+inflationRate} = growth of money / growth of price$$
+
+\begin{defn}[term structure]
+    relationship between investment term and interest rate
+\end{defn}
+
+\begin{defn}[yield curve]
+    plot of bond yields as function of matuirity date
+\end{defn}
+
+\textbf{interest rate determination}: overnight rate: rate at which banks can borrow cash reserves on overnight basis from Bank of Canada
+
+if interest rate expect to rise, long-term interest rate will be higher to attract investors
+
+\subsection{bond terminology}
+\begin{defn}[bond indenture]
+    a statement of terms of a bond, as well as amounts and dates of all payments
+\end{defn}
+
+\begin{defn}[maturity date]
+    the final repayment date of a bond
+\end{defn}
+
+\begin{defn}[term]
+    the time remaining until final repayment date
+\end{defn}
+
+\begin{defn}[face value]
+    norminal amount used to compute interest payment
+
+    typically repaid at maturity 
+
+    usually standard increments like 1000
+\end{defn}
+
+\begin{defn}[coupons]
+    the promised interest payments paid periodically until maturity date 
+\end{defn}
+
+coupon rate is expressed as APR, 
+
+CPN is each coupon payment
+$$CPN=\frac{couponRate * faceValue}{numberOfPayment}$$
+
+\begin{defn}[zero coupon bonds]
+   only 2 cash flows 
+\end{defn}
+
+yeild to maturity: 
+$$1+YTM_n = \frac{faceValue}{price}^{1/n}$$
+
+\section{stocks}
+\begin{defn}[common stock]
+    share of ownership, gives rights to any common dividends, rights to vote on election
+\end{defn}
+\begin{defn}[ticker symbol]
+    a unique abbreviation assigned to each publicly traded compamny
+\end{defn}
+\begin{defn}[preferred stock]
+    are issued with stated dividend rates, in bankruptcy or dividend, preferred stock ranks higher
+
+    cumulative perferred stock entitle investors to reap any missed dividends
+\end{defn}
+
+\begin{defn}[proxy]
+    a written authorization for someone else to vote your shares.
+
+    a proxy contest is a contest between 2 or more groups competing to collect proxies to prevail in the matter up for shareholder vote
+\end{defn}
+\begin{defn}[cumulative vs non-cumulative perfered stock]
+    cumulative is all missed preferred dividends must be paid before common dividends may be paid
+    
+    non-cumulative is current preferred dividends must be paid before common dividends may be paid
+\end{defn}
+\begin{defn}[dividend yield]
+    expected annual divident of stock divided by its current price.
+\end{defn}
+\begin{defn}[capital gain]
+    the amount by which the selling price exceeds initial purchase price
+
+    captical gain rate: $\frac{P1-P0}{P0}$
+\end{defn}
+
+\begin{defn}[total return]
+    $r_E = {Div_1}{P0}+\frac{P_1-P_0}{P_0}$
+    this is dividend yeild - capital gain rate
+\end{defn}
+    $P_0=\frac{Div_1}{1+r_E}+\frac{Div_2+P_2}{(1+r_E)^2}$
+
+\textbf{constant dividend growth model} some dividends grows at constant rate 
+
+$P_0=\frac{Div_1}{r_E - g}$
+
+\subsection{estimating dividends}
+dividends versus investment and growth 
+
+increase dividend in 3 ways 
+\begin{itemize}
+    \item  increase in earnings 
+    \item increase in dividend payout rate 
+    \item decrease in number of shares
+\end{itemize}
+
+dividend payout rate (fraction of firm's earnings taht firm pays out as dividend)
+
+$Div=\frac{earnings}{sharesOutstanding}* dividendPayoutRate$
+
+change in earnings = new inverstment * return on new investment
+
+new investment = earnings * rentention rate 
+
+if dividend payout rate is constant,
+
+g = retention rate * return on new investment 
+
+\subsection{estimating dividends in dividend discount model}
+$$P_n = \frac{Div_{n+1}}{r_E-g}$$
+
+if a firm do share repurchase, Div = Div + share repurchase 
+
+\textbf{discounted free cash flow model}
+enterprise value = market value + debt - cash
+
+
+free cash flow = EBIT * (1-taxRate)+ depreciation - capital expenditure - increase in net working capital
+
+discounted free cash flow model: V = PV(future free cash flow of firm)
+
+$$P_0=\frac{V_0+cash_0-debt_0}{sharesOutstanding}$$
+
+since we are discounting cash flows to all investors, we use \textbf{weighted average cost of capital (WACC)}, $r_{wacc}$
+
+$$V_0=\frac{FCF_1}{1+r_{wacc}}+\frac{FCF_2}{(1+r_{wacc}^2)}...+\frac{FCF_n}{(1+r_{wacc}^n)}+\frac{V_n}{(1+r_{wacc})^n}$$
+
+for estimating the terminal value, we need to ssume a constant long-run growth rate $g_{FCF}$ for free cash flows beyond year N
+
+$$V_N = \frac{FCF_{N+1}}{r_{wacc}-g_{FCF}}= (\frac{1+g_{FCF}}{r_{wacc}-g_{FCF} })FCF_N$$
+
+\subsection{valuation based on comparable firms}
+valuation multiples: 
+\begin{itemize}
+    \item price earnings ratio: most common, share price / earnings per share
+    \item enterprise value multiples 
+    \item other multiples \begin{itemize}
+        \item multiples of sales 
+        \item price-to-book value of equity 
+        \item industry-specific ratios
+    \end{itemize}
+\end{itemize}
+
+we calculate P/E ratio using trailing earnings or forward earnings. 
+
+trailing is earnings over prior 12 months 
+
+forward is earnigns over coming 12 months, preferred as we most concerned about future earnings 
+
+forward P/E = $\frac{P_0}{EPS_1}=\frac{DividendPayoutRate(DIV/EPS)}{r_E-g}$
+
+P/E ratio relates only to equity, ignoring debt, enterprise value multiples use a measure of earnings before interest payments are made.
+\begin{itemize}
+    \item ebit 
+    \item ebitda 
+    \item free cash flow (because capital expanditure can vary, most common is to use enterprise value to EBITDA multiple)
+\end{itemize}
+
+when expected free cash flow growth constant, 
+$$V_0/EBITDA_1=\frac{\frac{FCF_1}{r_wacc-g_{FCF}}}{EBITDA_1}=\frac{FCF_1/EBITDA_1}{r_{wacc}-g_{FCF}}$$
+
+\section{Fundamentals of Capital Budgeting}
+\begin{defn}[capital budget]
+    a list of projects that a company plans to undertake during next period
+\end{defn}
+
+\begin{defn}[capital budgeting]
+    process of analyzing investing opportunities and deciding which ones to accept
+\end{defn}
+
+\begin{defn}[incremental earnings]
+    the amount by which a firm's earnings are expected to change as a result of an investment decision
+\end{defn}
+
+incremental revenue and cost estimates: facts to consider:
+\begin{itemize}
+    \item a new product has lower sales initailly 
+    \item average price and cost of production changes overtime 
+    \item competition tens to reduce profit
+\end{itemize}
+
+operating expenses vs captical expenditure:
+
+cost of plant property and equipment is divided to be deducted when estimating earnings
+
+capital cost allowance (for tax purpose)
+
+the incremental cca deduction claimed at end of tax year is undepreciated capital cost multipled by CCA rate
+
+$CCA_t = UCC_t*d$
+
+$UCC_1 = 0.5* CapEx$
+$UCC_t = CApEx * (1-d/2)*(1-d)^{t-2}$
+
+incremental revenue and cost estimates 
+
+incremental EBIT = incremental revenue / incremental cost - CCA
+
+CCA: capital cost allowance: canada revenue agency method of depreciation for income tax purpose 
+
+CCA rate: the proportion of underpreciated capital cost that can be claimed as cca in a given tax year
+
+half-year rule: as assets may be purchased any time throughout a year, it can be assumed on average, an asset is owned for half a year during the first tax year of its ownership
+
+undepreciated capital cost (UCC): the balance, at a point of time, calculated by deducting an asset's current and prior CCA amounts from original cost of the asset
+
+incremental earnings forecast: 
+\begin{itemize}
+    \item pro forma statement: a statement that is not based on actual data but rather depicts a firm's financials under a given set of hypothetical assumptions
+    \item taxes and negative ebit 
+    \item interest expense: unlevered net income: net income that does not include 
+\end{itemize}
+
+converting from earnings to free cash flow(the incremental effect of a project on a firm's available cash)
+
+capital expenditures and depreciation
+
+net working capital = current assets - current liabilities = cash + inventory + receivables - payables
+
+\textbf{trade credit} the difference between receivables and payables is net amount of firm's capital that is consumed as a result of these credit transactions
+\end{document}
